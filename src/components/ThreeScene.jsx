@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+import AboutPage from './AboutPage';
 
 // liste des sapes avec leurs pos
 const PEOPLE = [
@@ -24,6 +25,7 @@ export default function ThreeScene() {
   
   const [hoveredPerson, setHoveredPerson] = useState(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [aboutOpen, setAboutOpen] = useState(false);
 
   useEffect(() => {
     if (!containerRef.current || sceneRef.current) return;
@@ -203,55 +205,108 @@ export default function ThreeScene() {
   }, []);
 
   return (
-    <div 
-      ref={containerRef} 
-      style={{ 
-        width: '100%', 
-        height: '100vh',
-        overflow: 'hidden',
-        position: 'relative'
-      }}
-    >
-      {/* infobulle sur la souris */}
-      {hoveredPerson && (
-        <div
+    <>
+      <div 
+        ref={containerRef} 
+        style={{ 
+          width: '100%', 
+          height: '100vh',
+          overflow: 'hidden',
+          position: 'relative'
+        }}
+      >
+        {/* bouton À propos — top right */}
+        <button
+          onClick={() => setAboutOpen(true)}
           style={{
-            position: 'fixed',
-            left: mousePos.x + 15,
-            top: mousePos.y + 15,
-            backgroundColor: '#F56E00', // orange
-            color: '#0A1AB5', // bleu
-            padding: '12px 20px',
-            borderRadius: '30px',
+            position: 'absolute',
+            top: '24px',
+            right: '28px',
+            zIndex: 100,
+            background: 'rgba(255,255,255,0.92)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            border: '1.5px solid rgba(0,0,0,0.1)',
+            borderRadius: '40px',
+            padding: '10px 22px',
+            fontFamily: "'Inter', system-ui, sans-serif",
+            fontSize: '13px',
+            fontWeight: '600',
+            letterSpacing: '0.4px',
+            color: '#0A1AB5',
+            cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
-            gap: '10px',
-            pointerEvents: 'none',
-            fontFamily: 'system-ui, -apple-system, sans-serif',
-            fontWeight: '600',
-            fontSize: '16px',
-            // pas de caps lock ici
-            letterSpacing: '0.5px',
-            boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-            zIndex: 1000,
-            whiteSpace: 'nowrap',
+            gap: '8px',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+            transition: 'background 0.2s, transform 0.2s, box-shadow 0.2s',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.background = '#F56E00';
+            e.currentTarget.style.color = 'white';
+            e.currentTarget.style.borderColor = '#F56E00';
+            e.currentTarget.style.transform = 'translateY(-1px)';
+            e.currentTarget.style.boxShadow = '0 8px 24px rgba(245,110,0,0.3)';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.92)';
+            e.currentTarget.style.color = '#0A1AB5';
+            e.currentTarget.style.borderColor = 'rgba(0,0,0,0.1)';
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
           }}
         >
-          <span>{hoveredPerson.name}</span>
-          <svg 
-            width="18" 
-            height="18" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="#0A1AB5"
-            strokeWidth="2.5"
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-          >
-            <path d="M7 17L17 7M17 7H7M17 7V17"/>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
           </svg>
-        </div>
-      )}
-    </div>
+          À propos
+        </button>
+
+        {/* infobulle sur la souris */}
+        {hoveredPerson && (
+          <div
+            style={{
+              position: 'fixed',
+              left: mousePos.x + 15,
+              top: mousePos.y + 15,
+              backgroundColor: '#F56E00',
+              color: '#0A1AB5',
+              padding: '12px 20px',
+              borderRadius: '30px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              pointerEvents: 'none',
+              fontFamily: 'system-ui, -apple-system, sans-serif',
+              fontWeight: '600',
+              fontSize: '16px',
+              letterSpacing: '0.5px',
+              boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+              zIndex: 1000,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            <span>{hoveredPerson.name}</span>
+            <svg 
+              width="18" 
+              height="18" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="#0A1AB5"
+              strokeWidth="2.5"
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <path d="M7 17L17 7M17 7H7M17 7V17"/>
+            </svg>
+          </div>
+        )}
+      </div>
+
+      {/* Page À propos */}
+      {aboutOpen && <AboutPage onClose={() => setAboutOpen(false)} />}
+    </>
   );
 }

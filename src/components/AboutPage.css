@@ -1,0 +1,314 @@
+/* =============================================
+   ABOUT PAGE — Trace Project
+   Colors: Orange #F56E00  |  Blue #0A1AB5
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ---------- Overlay ---------- */
+.about-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.about-overlay--visible {
+  opacity: 1;
+}
+
+/* translucent bg */
+.about-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 26, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* ---------- Panel ---------- */
+.about-panel {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 920px);
+  height: 100%;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  transform: translateX(60px);
+  opacity: 0;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.4s ease;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.about-panel--visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* ---------- Header ---------- */
+.about-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 40px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  position: sticky;
+  top: 0;
+  background: rgba(250, 250, 250, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 10;
+}
+
+.about-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.about-header__logo {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: #0A1AB5;
+}
+
+.about-header__divider {
+  width: 1px;
+  height: 20px;
+  background: #ccc;
+}
+
+.about-header__subtitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  letter-spacing: 0.5px;
+}
+
+.about-close {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #333;
+  transition: background 0.2s, transform 0.2s, border-color 0.2s;
+  padding: 0;
+}
+
+.about-close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.about-close:hover {
+  background: #F56E00;
+  border-color: #F56E00;
+  color: white;
+  transform: rotate(90deg);
+}
+
+/* ---------- Hero ---------- */
+.about-hero {
+  padding: 52px 40px 36px;
+}
+
+.about-hero__eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #F56E00;
+  margin: 0 0 16px;
+}
+
+.about-hero__title {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 800;
+  line-height: 1.15;
+  color: #111;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.about-hero__accent {
+  color: #0A1AB5;
+}
+
+/* ---------- Grid ---------- */
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 0 40px 40px;
+  flex: 1;
+}
+
+/* ---------- Card ---------- */
+.about-card {
+  position: relative;
+  background: white;
+  border-radius: 20px;
+  padding: 32px 28px 28px;
+  cursor: default;
+  border: 1.5px solid rgba(0,0,0,0.07);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
+  overflow: hidden;
+  animation: cardIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.about-card--active {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+  border-color: var(--card-accent);
+}
+
+/* Top row: icon + tag */
+.about-card__top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.about-card__icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--card-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.about-card--active .about-card__icon {
+  transform: scale(1.1) rotate(-4deg);
+}
+
+.about-card__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.about-card__tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #999;
+}
+
+/* QR display */
+.about-card__qr {
+  float: right;
+  margin: 0 0 12px 16px;
+  width: 90px;
+  height: 90px;
+}
+
+.about-qr-svg {
+  width: 100%;
+  height: 100%;
+  color: #0A1AB5;
+  opacity: 0.9;
+}
+
+/* Title */
+.about-card__title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 12px;
+  letter-spacing: -0.2px;
+  line-height: 1.3;
+  clear: none;
+}
+
+/* Body */
+.about-card__body {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #666;
+  margin: 0 0 24px;
+  clear: both;
+}
+
+/* Bottom accent bar */
+.about-card__bar {
+  height: 3px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--card-accent) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.about-card--active .about-card__bar {
+  opacity: 1;
+}
+
+/* ---------- Footer ---------- */
+.about-footer {
+  border-top: 1px solid rgba(0,0,0,0.07);
+  padding: 20px 40px;
+  font-size: 12px;
+  color: #bbb;
+  letter-spacing: 0.3px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 700px) {
+  .about-panel {
+    width: 100%;
+  }
+
+  .about-header {
+    padding: 20px 20px;
+  }
+
+  .about-hero {
+    padding: 36px 20px 24px;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    padding: 0 20px 32px;
+    gap: 16px;
+  }
+
+  .about-footer {
+    padding: 16px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-hero__title {
+    font-size: 26px;
+  }
+
+  .about-card {
+    padding: 24px 20px 20px;
+  }
+}
